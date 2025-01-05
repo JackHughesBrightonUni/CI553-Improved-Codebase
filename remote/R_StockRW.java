@@ -6,6 +6,7 @@ import middle.StockException;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
+import java.util.List;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -114,5 +115,18 @@ public class      R_StockRW
               throws StockException
   {
     aStockRW.modifyStock( product );
+  }
+
+  /**
+   * Returns products within the specified price range
+   * @param minPrice The minimum price
+   * @param maxPrice The maximum price
+   * @return List of products within the price range
+   * @throws StockException if underlying error
+   */
+  public synchronized List<Product> getProductsByPriceRange(double minPrice, double maxPrice)
+         throws StockException
+  {
+    return aStockRW.getProductsByPriceRange(minPrice, maxPrice);
   }
 }

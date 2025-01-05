@@ -14,6 +14,8 @@ import middle.StockReader;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -170,6 +172,45 @@ public class StockR implements StockReader
     
     //DEBUG.trace( "DB StockR: getImage -> %s", filename );
     return new ImageIcon( filename );
+  }
+
+  /**
+   * Returns products within the specified price range
+   * @param minPrice The minimum price
+   * @param maxPrice The maximum price
+   * @return Array of Products within the price range
+   */
+  public synchronized List<Product> getProductsByPriceRange(double minPrice, double maxPrice)
+         throws StockException
+  {
+    try
+    {
+      ResultSet rs = getStatementObject().executeQuery(
+        "SELECT ProductTable.productNo, description, price, stockLevel " +
+        "FROM ProductTable, StockTable " +
+        "WHERE ProductTable.productNo = StockTable.productNo " +
+        "AND price >= " + minPrice + " AND price <= " + maxPrice
+      );
+
+      List<Product> products = new ArrayList<>();
+      
+      while (rs.next())
+      {
+        Product dt = new Product(
+          rs.getString("productNo"),
+          rs.getString("description"),
+          rs.getDouble("price"),
+          rs.getInt("stockLevel")
+        );
+        products.add(dt);
+      }
+      rs.close();
+      return products;
+    }
+    catch (SQLException e)
+    {
+      throw new StockException("SQL getProductsByPriceRange: " + e.getMessage());
+    }
   }
 
 }

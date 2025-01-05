@@ -6,6 +6,7 @@ import middle.StockException;
 import javax.swing.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Defines the RMI interface for read access to the stock object.
@@ -21,6 +22,8 @@ public interface RemoteStockR_I
   Product   getDetails(String number)
             throws RemoteException, StockException;
   ImageIcon getImage(String number)
+            throws RemoteException, StockException;
+  List<Product> getProductsByPriceRange(double minPrice, double maxPrice)
             throws RemoteException, StockException;
 }
 
