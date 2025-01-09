@@ -38,3 +38,11 @@ REPLACE %DERBY_HOME% with the path to the base of the Derby database
 1. To create the Derby database, after compiling the system, run `clients.Setup.main()`.
 
 2. To start the system, run `clients.Main.main()`.
+
+## Student Improvements
+
+Improved CI553 mini-store codebase with added features:
+- Bulk Purchase Discounts
+- Stock Low Alerts
+- Product Filtering by Price
+- Dark Mode UI
